@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Felices 9 Meses ❤️</title>
+    <style>
+        body { 
+            margin: 0; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: #fffcf9; 
+            color: #333; 
+            overflow-x: hidden; 
+        }
+        .container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            text-align: center; 
+        }
+        /* Interfaz con toques naranjas */
+        .card { 
+            background: white; 
+            border-radius: 15px; 
+            padding: 30px; 
+            margin: 20px 0; 
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.15); 
+            opacity: 0; 
+            transform: translateY(20px); 
+            transition: all 0.8s ease; 
+            border-left: 5px solid #e67e22;
+        }
+        .card.visible { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+        h1 { color: #e67e22; font-size: 2.5em; margin-bottom: 5px; }
+        h2 { color: #d35400; }
+        p { font-size: 1.2em; line-height: 1.6; color: #555; }
+        .btn { 
+            background: #e67e22; 
+            color: white; 
+            border: none; 
+            padding: 15px 40px; 
+            font-size: 1.2em; 
+            border-radius: 30px; 
+            cursor: pointer; 
+            margin-top: 20px; 
+            transition: background 0.3s, transform 0.2s; 
+            font-weight: bold;
+        }
+        .btn:hover { 
+            background: #d35400; 
+            transform: scale(1.05);
+        }
+        #content { display: none; padding-top: 20px; }
+        .music-box { margin: 30px 0; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .highlight { color: #e67e22; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container" id="intro">
+        <br><br><br><br>
+        <h1>Para mi amorcita hermosa, Isabel ❤️</h1>
+        <p>He preparado algo especial recordando nuestra historia...</p>
+        <button class="btn" onclick="iniciarSorpresa()">Descubrir</button>
+    </div>
+
+    <div class="container" id="content">
+        
+        <p><i>Dale play y acompáñame en este recorrido...</i></p>
+        <div class="music-box">
+            <!-- Spotify Embed: Accidentally in Love -->
+            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/0bX4EawZ3S1I2S6AOP2sQ3?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+
+        <div class="card">
+            <h2>El primer beso 🌳</h2>
+            <p>Ese momento en el parque... Recuerdo cómo nos sentimos en las nubes. Fue mágico, como si de pronto toda la carga desapareciera con ese beso.</p>
+        </div>
+
+        <div class="card">
+            <h2>Nuestra primera cita 🍝</h2>
+            <p>Imposible olvidar ese día en Larcomar. Fuimos a comer a La Trattoria y luego bajamos a caminar por la playa. El inicio de la mejor aventura.</p>
+        </div>
+
+        <div class="card">
+            <h2>Hace exactamente 9 meses 💐</h2>
+            <p>Un día como hoy, en esa misma playa de Larcomar, parados en las piedras. Con ese ramo de flores en la mano y el mar a la vista, te pedí que fueras mi novia.</p>
+        </div>
+
+        <div class="card">
+            <h2>Felices 9 Meses ❤️</h2>
+            <p>Con cada mes que pasa más confirmo que <span class="highlight">eres el amor de mi vida</span> y que quiero pasar toda mi vida contigo.</p>
+            
+            <div class="music-box" style="margin-top:25px;">
+                <!-- Spotify Embed: How Deep Is Your Love -->
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/224zMGOxEEB79qgS5F0LzC?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function iniciarSorpresa() {
+            // Ocultar portada y mostrar contenido
+            document.getElementById('intro').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+            
+            // Efecto cascada para las tarjetas
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('visible');
+                }, 300 + (index * 500)); // Aparecen una por una medio segundo después
+            });
+        }
+    </script>
+</body>
+</html>
