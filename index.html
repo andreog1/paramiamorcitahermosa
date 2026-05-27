@@ -14,8 +14,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Campo masivo de miles de tulipanes rojos y rosados */
-            background: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover fixed;
+            /* Nuevo fondo: Jardín de flores variado */
+            background: url('https://images.unsplash.com/photo-1558222218-b7b54eede3f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover fixed;
             font-family: 'Poppins', sans-serif;
             overflow: hidden; 
         }
@@ -23,7 +23,7 @@
         .overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(20, 5, 10, 0.6);
+            background: rgba(20, 5, 10, 0.65);
             z-index: 1;
         }
 
@@ -63,12 +63,15 @@
             text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
         }
 
+        /* Contenedor relativo para enjaular al botón malo */
         .btn-container {
             display: flex;
             justify-content: center;
             gap: 20px;
             margin-top: 30px;
-            flex-wrap: wrap;
+            position: relative;
+            min-height: 60px; /* Espacio para que no colapse */
+            width: 100%;
         }
 
         button {
@@ -79,13 +82,15 @@
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s, background 0.3s;
+            transition: transform 0.1s, background 0.3s;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            height: fit-content;
         }
 
         .btn-good {
             background: #ff4d6d;
             color: white;
+            z-index: 10; /* Para que siempre esté por encima */
         }
 
         .btn-good:hover {
@@ -96,8 +101,7 @@
         .btn-bad {
             background: #4a4e69;
             color: white;
-            position: relative;
-            z-index: 100;
+            z-index: 5;
         }
 
         .music-player {
@@ -147,8 +151,7 @@
 
     <div class="card" id="step3">
         <h1>¿Quieres ver lo que hice hoy para ti?</h1>
-        <div class="btn-container">
-            <button class="btn-good" onclick="nextStep('step3', 'step4')">Sí, mi niño hermoso tan lindo pues</button>
+        <div class="btn-container" style="min-height: 100px;"> <button class="btn-good" onclick="nextStep('step3', 'step4')">Sí, mi niño hermoso tan lindo pues</button>
             <button class="btn-bad runaway">No</button>
         </div>
     </div>
@@ -204,22 +207,18 @@
 
     <script>
         function nextStep(currentId, nextId) {
-            // INTENTO DE REPRODUCCIÓN EN CADA CLIC DE AVANCE
             const bgMusic = document.getElementById('bg-music');
             const visibleControls = document.getElementById('visible-controls');
             
-            // Al primer clic interactivo, disparamos el audio principal oculto
             if (bgMusic && bgMusic.paused) {
                 bgMusic.play().then(() => {
-                    // Sincronizamos el reproductor visible del final para que aparezca ya avanzando
                     if (visibleControls) {
                         visibleControls.currentTime = bgMusic.currentTime;
                         visibleControls.play();
                     }
-                }).catch(err => console.log("Interacción requerida por el navegador:", err));
+                }).catch(err => console.log("Interacción requerida:", err));
             }
 
-            // Si ya estamos en el paso final, apagamos el audio oculto y dejamos que mande el visible
             if (nextId === 'step4') {
                 if (bgMusic) {
                     if (visibleControls) {
@@ -239,15 +238,25 @@
             button.addEventListener('click', function(e) {
                 e.preventDefault();
                 
-                this.style.position = 'fixed';
+                // Enjaulamos el botón dentro de su contenedor (.btn-container)
+                const container = this.parentElement;
                 
-                const windowWidth = window.innerWidth;
-                const windowHeight = window.innerHeight;
+                // Expandimos un poco el contenedor para que tenga espacio donde huir
+                container.style.height = '150px'; 
+                
+                this.style.position = 'absolute';
+                
+                const containerWidth = container.offsetWidth;
+                const containerHeight = container.offsetHeight;
                 const buttonWidth = this.offsetWidth;
                 const buttonHeight = this.offsetHeight;
                 
-                const randomX = Math.max(10, Math.floor(Math.random() * (windowWidth - buttonWidth - 20)));
-                const randomY = Math.max(10, Math.floor(Math.random() * (windowHeight - buttonHeight - 20)));
+                // Calculamos límites estrictos dentro del contenedor
+                const maxX = containerWidth - buttonWidth;
+                const maxY = containerHeight - buttonHeight;
+                
+                const randomX = Math.max(0, Math.floor(Math.random() * maxX));
+                const randomY = Math.max(0, Math.floor(Math.random() * maxY));
                 
                 this.style.left = randomX + 'px';
                 this.style.top = randomY + 'px';
