@@ -3,137 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Felices 9 Meses</title>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <title>9 Meses Contigo</title>
     <style>
-        body { 
-            margin: 0; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background: #fffcf9; 
-            color: #333; 
-            overflow-x: hidden; 
-        }
-        .container { 
-            max-width: 800px; 
-            margin: 0 auto; 
-            padding: 20px; 
-            text-align: center; 
-        }
-        /* Interfaz con la línea naranja */
-        .card { 
-            background: white; 
-            border-radius: 15px; 
-            padding: 30px; 
-            margin: 20px 0; 
-            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.15); 
-            opacity: 0; 
-            transform: translateY(20px); 
-            transition: all 0.8s ease; 
-            border-left: 5px solid #e67e22;
-        }
-        .card.visible { 
-            opacity: 1; 
-            transform: translateY(0); 
-        }
-        h1 { 
-            color: #e67e22; 
-            font-size: 2.5em; 
-            margin-bottom: 5px; 
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
             display: flex;
-            align-items: center;
             justify-content: center;
-            gap: 10px;
-        }
-        h2 { 
-            color: #d35400; 
-            display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
+            /* Fondo de rosas rojas y rosadas sin tallos (pétalos y flores) */
+            background: url('https://images.unsplash.com/photo-1559564484-e48b3e040ff4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover fixed;
+            font-family: 'Poppins', sans-serif;
         }
-        p { font-size: 1.2em; line-height: 1.6; color: #555; }
-        .btn { 
-            background: #e67e22; 
-            color: white; 
-            border: none; 
-            padding: 15px 40px; 
-            font-size: 1.2em; 
-            border-radius: 30px; 
-            cursor: pointer; 
-            margin-top: 20px; 
-            transition: background 0.3s, transform 0.2s; 
-            font-weight: bold;
+
+        /* Capa oscura para que el texto sea legible */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 5, 10, 0.5);
+            z-index: 1;
         }
-        .btn:hover { 
-            background: #d35400; 
-            transform: scale(1.05);
+
+        /* Efecto Glassmorphism (vidrio esmerilado) */
+        .card {
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 50px 40px;
+            max-width: 650px;
+            width: 90%;
+            text-align: center;
+            color: #ffffff;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            margin: 40px 0;
         }
-        #content { display: none; padding-top: 20px; }
-        .music-box { margin: 30px 0; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .highlight { color: #e67e22; font-weight: bold; }
-        
-        /* Estilos para los iconos */
-        .icon-heart { color: #e74c3c; fill: #e74c3c; }
-        .icon-title { color: #d35400; }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            color: #ffb3c6;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-style: italic;
+            color: #ffccd5;
+            margin-bottom: 35px;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 22px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+
+        .music-player {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .audio-label {
+            display: block;
+            font-size: 0.95rem;
+            color: #ffccd5;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        audio {
+            width: 100%;
+            height: 40px;
+            outline: none;
+            border-radius: 20px;
+        }
     </style>
 </head>
 <body>
-    <div class="container" id="intro">
-        <br><br><br><br>
-        <h1>Para mi amorcita hermosa, Isabel <i data-lucide="heart" class="icon-heart"></i></h1>
-        <p>Nueve meses sintiendo que me gané la lotería contigo. He preparado algo especial para recordar cómo empezó todo...</p>
-        <button class="btn" onclick="iniciarSorpresa()">Descubrir</button>
-    </div>
-
-    <div class="container" id="content">
+    <div class="overlay"></div>
+    <div class="card">
+        <h1>Felices 9 Meses</h1>
+        <h2>Para ti, la dueña de mi corazón</h2>
         
-        <p><i>Dale play y acompáñame en este recorrido...</i></p>
-        <div class="music-box">
-            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/11OtzCNkeqXnnUPRFO1hsP?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-        </div>
+        <p>
+            En aquel parque cerca de tu casa empezó la historia,<br>
+            entre risas y tragos, un beso quedó en la memoria.<br>
+            Estábamos algo tomados, pero muy conscientes,<br>
+            con la duda latiendo: ¿seremos amigos o algo diferente?
+        </p>
+        <p>
+            Pero el destino tenía otro plan, otra jugada,<br>
+            y llegó nuestra primera cita, la noche esperada.<br>
+            Un restaurante los dos solos, algo sin igual,<br>
+            para luego bajar a la playa y dejar lo casual.
+        </p>
+        <p>
+            Ahí nos besamos de nuevo, ya sin alcohol en las venas,<br>
+            con un sentimiento puro que borraba las penas.<br>
+            Sintiendo un "Accidentally in Love" sin pensar,<br>
+            viendo que un "How Deep Is Your Love" se podía alcanzar.
+        </p>
+        <p>
+            Pasaron los meses y volvimos al mismo lugar,<br>
+            en aquellas rocas junto al camino, frente al mar.<br>
+            Nos miramos a los ojos, el tiempo paró un instante,<br>
+            yo temblando de nervios, con el ramo por delante.
+        </p>
+        <p>
+            Ese 26 de septiembre fue mi día de suerte,<br>
+            me declaré con miedo, pero queriéndote fuerte.<br>
+            Fue uno de los momentos más felices de mi vida,<br>
+            ver tu cara de amor, Isabel, mi consentida.
+        </p>
+        <p>
+            Hoy cumplimos 9 meses desde aquel gran "sí",<br>
+            y solo pido que los años sigan pasando así.<br>
+            Que me sigas mirando con esa misma ilusión,<br>
+            porque tú eres la dueña de mi corazón.
+        </p>
 
-        <div class="card">
-            <h2>El primer beso <i data-lucide="tree-deciduous" class="icon-title"></i></h2>
-            <p>Ese momento en el parque no fue solo un beso, fue como si el mundo entero se pusiera en pausa. Recuerdo perfectamente cómo nos sentimos en las nubes, una paz increíble, como si de pronto toda la carga del día a día desapareciera al sentirte tan cerca.</p>
-        </div>
-
-        <div class="card">
-            <h2>Nuestra primera cita <i data-lucide="utensils" class="icon-title"></i></h2>
-            <p>Imposible olvidar esa tarde mágica. Desde las risas comiendo en La Trattoria hasta esa caminata interminable por la playa en Larcomar. Cada segundo a tu lado me confirmaba que quería seguir caminando contigo a donde sea.</p>
-        </div>
-
-        <div class="card">
-            <h2>Hace exactamente 9 meses <i data-lucide="flower-2" class="icon-title"></i></h2>
-            <p>Un día como hoy, parados en esas piedras con la inmensidad del mar de fondo. Tenía ese ramo de flores en la mano y el corazón latiendo a mil por hora cuando te pedí que fueras mi novia. Fue, sin duda alguna, la mejor decisión que he tomado.</p>
-        </div>
-
-        <div class="card">
-            <h2>Felices 9 Meses <i data-lucide="heart" class="icon-heart"></i></h2>
-            <p>Con cada mes que pasa, no solo confirmo que <span class="highlight">eres el amor de mi vida</span>, sino que quiero construir mi futuro entero a tu lado. (Y te juro que hasta Falco se da cuenta de lo inmensamente feliz que me haces). Te amo, Isabel.</p>
-            
-            <div class="music-box" style="margin-top:25px;">
-                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2rxQMGVafnNaRoXbXmPGry?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-            </div>
+        <div class="music-player">
+            <span class="audio-label">Nuestra canción</span>
+            <!-- Reemplaza el src con tu archivo de audio -->
+            <audio controls>
+                <source src="how-deep-is-your-love.mp3" type="audio/mpeg">
+                Tu navegador no soporta el elemento de audio.
+            </audio>
         </div>
     </div>
-
-    <script>
-        // Inicializar los iconos de Lucide
-        lucide.createIcons();
-
-        function iniciarSorpresa() {
-            // Ocultar portada y mostrar contenido
-            document.getElementById('intro').style.display = 'none';
-            document.getElementById('content').style.display = 'block';
-            
-            // Efecto cascada para las tarjetas
-            const cards = document.querySelectorAll('.card');
-            cards.forEach((card, index) => {
-                setTimeout(() => {
-                    card.classList.add('visible');
-                }, 300 + (index * 500)); // Aparecen una por una medio segundo después
-            });
-        }
-    </script>
 </body>
 </html>
