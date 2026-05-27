@@ -14,10 +14,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Fondo nuevo: Tulipanes y flores rojas/rosadas */
-            background: url('https://images.unsplash.com/photo-1520763185298-1b434c919102?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover fixed;
+            /* Campo masivo de miles de tulipanes rojos y rosados */
+            background: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover fixed;
             font-family: 'Poppins', sans-serif;
-            overflow: hidden; /* Evita que el boton que huye cree barras de scroll */
+            overflow: hidden; 
         }
 
         .overlay {
@@ -44,7 +44,6 @@
             transition: opacity 0.5s ease-in-out;
         }
 
-        /* Ocultar secciones inicialmente */
         #step2, #step3, #step4 {
             display: none;
         }
@@ -97,7 +96,7 @@
         .btn-bad {
             background: #4a4e69;
             color: white;
-            position: relative; /* Para que JS pueda moverlo a fixed luego */
+            position: relative;
             z-index: 100;
         }
 
@@ -125,6 +124,10 @@
 </head>
 <body>
     <div class="overlay"></div>
+
+    <audio id="bg-music" loop>
+        <source src="how-deep-is-your-love.mp3" type="audio/mpeg">
+    </audio>
 
     <div class="card" id="step1">
         <h1>Hola amor</h1>
@@ -192,40 +195,60 @@
         </p>
 
         <div class="music-player">
-            <span class="audio-label">Nuestra canción (Dale play)</span>
-            <audio controls>
+            <span class="audio-label">Reproduciendo nuestra canción</span>
+            <audio id="visible-controls" controls>
                 <source src="how-deep-is-your-love.mp3" type="audio/mpeg">
-                Tu navegador no soporta el elemento de audio.
             </audio>
         </div>
     </div>
 
     <script>
-        // Función para cambiar de tarjeta
         function nextStep(currentId, nextId) {
+            // INTENTO DE REPRODUCCIÓN EN CADA CLIC DE AVANCE
+            const bgMusic = document.getElementById('bg-music');
+            const visibleControls = document.getElementById('visible-controls');
+            
+            // Al primer clic interactivo, disparamos el audio principal oculto
+            if (bgMusic && bgMusic.paused) {
+                bgMusic.play().then(() => {
+                    // Sincronizamos el reproductor visible del final para que aparezca ya avanzando
+                    if (visibleControls) {
+                        visibleControls.currentTime = bgMusic.currentTime;
+                        visibleControls.play();
+                    }
+                }).catch(err => console.log("Interacción requerida por el navegador:", err));
+            }
+
+            // Si ya estamos en el paso final, apagamos el audio oculto y dejamos que mande el visible
+            if (nextId === 'step4') {
+                if (bgMusic) {
+                    if (visibleControls) {
+                        visibleControls.currentTime = bgMusic.currentTime;
+                    }
+                    bgMusic.pause();
+                }
+            }
+
             document.getElementById(currentId).style.display = 'none';
             document.getElementById(nextId).style.display = 'block';
         }
 
-        // Lógica para que los botones malos huyan del mouse
         const runawayButtons = document.querySelectorAll('.runaway');
         
         runawayButtons.forEach(button => {
-            button.addEventListener('mouseenter', function() {
-                // Cambiamos la posición a fixed para moverlo por toda la ventana
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
                 this.style.position = 'fixed';
                 
-                // Calculamos dimensiones de la ventana y del botón
                 const windowWidth = window.innerWidth;
                 const windowHeight = window.innerHeight;
                 const buttonWidth = this.offsetWidth;
                 const buttonHeight = this.offsetHeight;
                 
-                // Generamos coordenadas aleatorias dentro del límite de la pantalla
-                const randomX = Math.floor(Math.random() * (windowWidth - buttonWidth));
-                const randomY = Math.floor(Math.random() * (windowHeight - buttonHeight));
+                const randomX = Math.max(10, Math.floor(Math.random() * (windowWidth - buttonWidth - 20)));
+                const randomY = Math.max(10, Math.floor(Math.random() * (windowHeight - buttonHeight - 20)));
                 
-                // Movemos el botón
                 this.style.left = randomX + 'px';
                 this.style.top = randomY + 'px';
             });
